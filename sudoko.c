@@ -151,6 +151,10 @@ int isSafeRegular(struct Cell **grid, int gridSize, int subgridSize, int row, in
 
 int isActiveCell(struct Cell **grid, int gridSize, int move)
 {
+    
+    if(move == (gridSize*gridSize+1))
+        return 0;
+
     move = move - 1;
 
     int row = move / gridSize;
@@ -264,13 +268,22 @@ int main()
         nopts[start] = 1;
         while(nopts[start] > 0)
         {   
-            if(nopts[move] > 0 || !isActiveCell(grid,gridSize,move))
+            
+            
+            if((nopts[move] > 0 || !isActiveCell(grid,gridSize,move)) )
             {
                 printf("%d\n\n",move);
                 move++;
 
-                while(!isActiveCell(grid,gridSize,move) && move < gridSize*gridSize+1)
+                
+
+                while(!isActiveCell(grid,gridSize,move) && move < (gridSize*gridSize+1))
                     move++;
+
+                if(move == (gridSize*gridSize + 1))
+                {
+                    nopts[move] = 0;
+                }
                 nopts[move] = 0;
    
                 if(solvedRegular(grid,gridSize,subgridSize))
